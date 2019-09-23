@@ -126,6 +126,8 @@ SET PASSWORD FOR 'user_name'@'host' = password('new_password_here');
 	```sql
 	USE mysql;
 	UPDATE `user` SET `Password` = password('your_new_password_here') WHERE `User` = 'root';
+	# mysql5.7
+	UPDATE `user` SET `authentication_string` = password('your_new_password_here'), `password_expired` = 'N', `password_last_changed` = now() where `user` = 'root';
 	FLUSH PRIVILEGES;
 	```
 	

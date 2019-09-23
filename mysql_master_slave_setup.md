@@ -28,6 +28,8 @@ log-bin=/var/log/mysql-binlog
 # binlog-do-db=db_test
 # binlog-do-db=db_user
 # binlog-ignore-db=mysql
+# binlog-ignore-db=information_schema
+# binlog-ignore-db=performance_schema
 ```
 
 `server-id`: 主从关系中唯一的 ID 号。
