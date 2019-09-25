@@ -25,6 +25,8 @@ mysqldump -hlocalhost -uroot -p -q --databases database_name --tables table_name
 > `--single-transaction`: 防止执行时锁死整个库
 > 
 > `--skip-tz-utc`: 阻止 MySQL 的时区转换，避免 `TIMESTAMP` 字段时间回退 8 小时
+>
+> `--hex-blob`: 如果数据中包含二进制数据，需要此参数。影响字段类型 `binary`、`varbinary` 和 `blob`
 
 or 
 

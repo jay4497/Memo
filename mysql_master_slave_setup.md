@@ -14,7 +14,7 @@
 
 ```
 mysql > GRANT REPLICATION SLAVE ON *.* TO 'slave01'@'192.168.8.188' IDENTIFIED BY 'salve01password';
-mysql > FLUSH PRIVILLEGES;
+mysql > FLUSH PRIVILEGES;
 ```
 
 REPLICATION SLAVE 权限是全局的，所以此处必须是 `*.*`，不然会报错。需要同步指定的数据库可以通过步骤 2 在主库配置文件中配置 `binlog-do-db` 项。
