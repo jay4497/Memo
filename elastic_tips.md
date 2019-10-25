@@ -1,5 +1,7 @@
 # ElasticSearch Tips
 
+**注意**：实际使用中，以下所有示例配置文件中 # 注释部分要全部删除，因为这并不是 Logstash 配置文件的标准注释
+
 ### 查询设置分词间相隔最高间隔
 
 通过设置 `slop` 为 0 实现类似 MySQL 中的 `LIKE` 查询 (LIKE '%keyword%')。
@@ -68,4 +70,40 @@ output {
 /path/to/bin/logstash -f /path/to/mysql_sync.conf
 ```
 
-**PS**: 实际使用中，上边 mysql_sync.conf 中 # 注释部分要全部删除，因为这并不是 Logstash 配置文件的标准注释
+### 使用 Logstash 导入 Nginx 日志
+
+```
+# file: access_logs.conf
+input { 
+  file {
+    # 文件路径，可以是数组，读取多个文件，如 path => ["/path/to/site1.log", "/path/to/site2.log"]，也可以使用通配符，如 path => "/path/to/*.log"
+    path => "/path/to/your_site.access.log"
+    start_position => "beginning"
+    # 文件 inode 记录，会记录文件读取记录的最后位置，如果存在此文件，会忽略 start_position 设置，强行从已记录的位置开始读取数据
+    sincedb_path => "/path/to/.sincedb"
+    # 每隔多少秒写一次 sincedb 文件，默认为 15s
+    sincedb_write_interval => 10
+    # 每隔多少秒检查一次被监听文件的状态（是否有更新），默认为 1s
+    stat_interval => 2
+  }
+}
+
+filter {
+  grok {
+    match => {"message" => "%{COMBINEDAPACHELOG}"}
+  }
+  date {
+    match => ["timestamp" , "yyyy/dd/MMM HH:mm:ss"]
+  }
+}
+
+output {
+  elasticsearch { 
+    hosts => ["localhost:9200"]
+    index => "access_logs"
+  }
+}
+
+# 运行
+/path/to/bin/logstash -f /path/to/access_logs.conf
+```
