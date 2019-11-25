@@ -96,4 +96,25 @@ mysql > RESET SLAVE;
 mysql > CHANGE MASTER TO MASTER_HOST = ' ';
 ```
 
+### binlog 文件清理
+
+**自动清理**
+
+通过配置文件配置过期时间。
+
+```ini
+# add the following line to my.ini/my.cnf
+expire_logs_days=30
+```
+
+以上示例设置表示保留 30 天内 binlog 文件。0 表示保留所有，即不清理。
+
+**手动清理**
+
+MySQL shell 中执行以下命令清理指定日期前的 binlog 文件。
+
+```mysql
+mysql > purge binary logs before '2019-10-01 00:00:00';
+```
+
 **-- The End**
