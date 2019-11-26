@@ -75,7 +75,13 @@ git stash pop
 
 在重构旧版本，且旧版本暂时仍在服务期时，频繁切换分支工作，`git stash` 很有用。
 
-### 更新及查看日志
+### 多人协作开发同一个分支时减少同步代码时不必要的自动生成 merge commit
+
+```shell
+git pull --rebase origin master
+```
+
+### 其它杂项
 
 ```shell
 # 更新
@@ -176,23 +182,5 @@ git push origin v3.2.1
 git tag 
 
 # 查看指定版本号
-git show v3.2.1 
-
-####
-
-# error: 
-Your local changes to the following files would be overwritten by merge:
-Please, commit your changes or stash them before you can merge.
-
-# 先将本地修改存储起来
-git stash 
-
-# pull内容
-git pull 
-
-# 还原暂存的内容
-git stash pop 
-
-# 确认代码自动合并的情况
-git diff -w +文件名 
+git show v3.2.1
 ```
