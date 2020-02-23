@@ -28,7 +28,7 @@ pick xxxx00
 ### 合并其它分支的指定文件(覆盖)到当前分支
 
 ```shell
-// on branch master
+# on branch master
 git checkout dev readme.md base.php
 git add -A
 git commit -m "modify files"
@@ -79,6 +79,25 @@ git stash pop
 
 ```shell
 git pull --rebase origin master
+```
+
+### Git 协同工作流程
+
+1. 建立主仓库。所有的开发都会以 `pull request` 的形式合并进来，不可以直接对主仓库进行 `push` 操作。
+
+2. 所有开发成员 `fork` 主仓库，然后 `clone` 自己的仓库进行各自开发。
+
+3. 开发完成后 `push` 到自己仓库，然后向主仓库提交 `pull request`。
+
+4. 为了与主仓库保持一致，避免 `pull request` 时合并发生冲突。本地开发需要添加一个远程分支，地址指向主仓库。然后通过 `fetch` 主仓库远程分支，与本地代码进行合并以保持与主仓库同步。具体操作示例如下：
+
+```git
+# 添加主仓库远程分支
+git remote add mainrepo https://domain.com/you-main-repo.git
+
+# 拉取主仓库代码并合并
+git fetch mainrepo
+git merge mainrepo/master
 ```
 
 ### 其它杂项
