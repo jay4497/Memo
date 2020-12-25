@@ -83,7 +83,7 @@ mysql > CHANGE MASTER TO MASTER_HOST = '192.168.8.51',
 2. 启动 SLAVE
 
 ```
-mysql > SLAVE START;
+mysql > START SLAVE;
 ```
 
 使用 `SHOW SLAVE STATUS\G;` 查看 SLAVE 状态。`Slave_IO_Running` 和 `Slave_SQL_Running` 均为 `Yes` 则表示 SLAVE 运行正常。
@@ -91,7 +91,7 @@ mysql > SLAVE START;
 3. 取消主从关系
 
 ```
-mysql > SLAVE STOP;
+mysql > STOP SLAVE;
 mysql > RESET SLAVE;
 mysql > CHANGE MASTER TO MASTER_HOST = ' ';
 ```
