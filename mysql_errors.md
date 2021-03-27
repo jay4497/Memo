@@ -29,3 +29,13 @@ REPAIR TABLE `user`;
 ```
 
 参考：[stackexchange.com](https://dba.stackexchange.com/questions/124956/sql-error-126-incorrect-key-file-for-table-mysql-user-myi-try-to-repair)
+
+### 在进行大量数据删除的时候提示磁盘空间不足，执行失败（ERROR 1026: Error writing file '/path/to/some.tmp' <errno: 28 - No space left on device>）
+
+因为在进行删除操作的时候，MySQL 会写缓存文件到磁盘，如果磁盘空间所剩没多少，就容易造成该问题。
+
+解决方案暂列两种：
+
+1. 加硬盘空间。
+
+2. 修改配置文件中 `tmpdir="/your/tmpdir/"` 项，将目录修改到空间足够的分区目录（Windows 下默认会在系统盘）。
