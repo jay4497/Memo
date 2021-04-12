@@ -107,3 +107,23 @@ output {
 # 运行
 /path/to/bin/logstash -f /path/to/access_logs.conf
 ```
+
+### 当文档字段类型初始设置不符合需求又不方便或不能更改原字段类型的时候，可以使用 runtime 字段来补救
+
+```
+# Method
+PUT http://host:9200/your_doc/_mappings
+# Request body 这里设置一个将原字段值转换为 double 类型的 runtime 字段
+{
+    "runtime": {
+      "your_runtime_field_name": {
+        "type": "double",
+        "script": {
+          "source": "emit(Double.parseDouble(doc['your_original_field'].value))"
+        }
+      }
+    }
+}
+```
+
+其中 `script.source` 段使用的是一段 `painless` 脚本，语言参考 [painless scripting language](https://www.elastic.co/guide/en/elasticsearch/painless/current/index.html)。
