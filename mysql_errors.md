@@ -39,3 +39,11 @@ REPAIR TABLE `user`;
 1. 加硬盘空间。
 
 2. 修改配置文件中 `tmpdir="/your/tmpdir/"` 项，将目录修改到空间足够的分区目录（Windows 下默认会在系统盘）。
+
+### 表损坏报错 Table 'xxxx' is marked as crashed and should be repaired
+
+MySQL 提供有修复工具（myisamchk）。关闭 MySQL 服务后执行以下命令：
+
+```
+myisamchk -r --update-state "/path/to/your-table-name.MYI"
+```
