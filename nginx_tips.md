@@ -25,3 +25,34 @@ sub_filter 'username' 'user_name';
 # add_header HEADER_NAME value
 add_header Access-Control-Allow-Origin 'example.com';
 ```
+
+### Fastadmin ( ThinkPHP5.0 ) 主要配置备忘
+
+```
+server {
+	listen 80;
+	listen [::]:80;
+	
+	server_name localhost jay4497.cn;
+	root /var/www/;
+	index index.php;
+	
+	location / {
+		if (!-e $request_filename) {
+			rewrite  ^(.*)$  /index.php?s=/$1  last;
+			break;
+		}
+	}
+	
+	location ~ \.php(.*)$ {
+		# php-fpm 服务端口
+		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index  index.php;
+        fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  PATH_INFO  $fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+        include        fastcgi_params;
+	}
+}
+```
