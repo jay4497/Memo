@@ -56,3 +56,39 @@ server {
     }
 }
 ```
+
+### 文件流内部转发服务 X-Accel
+
+可用于文件下载、音视频流读取等，方便在用户读取文件时进行鉴权、记录等前置操作。
+
+Nginx 配置：
+
+```
+server {
+    # other options
+
+    # 访问 /downloads/abc.zip 会指向 /var/files/abc.zip
+    location /downloads {
+        internal;
+        alias /var/files;
+    }
+}
+```
+
+实现下载文件功能的 PHP 示例：
+
+```PHP
+// 执行完其他自定义逻辑业务后输出文件流
+// 设置 MIME 类型
+header("Content-type: application/octet-stream");
+// 设置文件名
+header('Content-Disposition: attachment; filename="filename.zip"');
+// 设置缓存 yes/no
+header('X-Accel-Buffering: no');
+// 下载速率 bytes
+header('X-Accel-Limit-Rate: 50000');
+// 文件转发路径
+header("X-Accel-Redirect: /downloads/abc.zip");
+```
+
+参考：[X-Accel|Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/)
