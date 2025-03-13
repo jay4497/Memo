@@ -75,3 +75,5 @@
 [ElasticSearch TIPS](./elastic_tips.md)
 
 [本地测试开发使用 SSL 证书](./mkcert.md)
+
+[OpenWrt](./openwrt_tips.md)
